@@ -1,5 +1,6 @@
 GraphLCD base package Revision History
 --------------------------------------
+2018-03-16: port st7565r driver
 
 2011-05-01: branch touchcol, first commit
 - glcddrivers changes / enhancements:
