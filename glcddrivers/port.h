@@ -12,6 +12,27 @@
 #ifndef _GLCDDRIVERS_PORT_H_
 #define _GLCDDRIVERS_PORT_H_
 
+#include <string>
+#include <termios.h>
+
+// The following block is copied from "asm/termbits.h"
+// Has to be copied as the kernel header file conflicts with glibc termios.h
+#define NCCS2 19
+struct termios2 {
+    tcflag_t c_iflag;		/* input mode flags */
+    tcflag_t c_oflag;		/* output mode flags */
+    tcflag_t c_cflag;		/* control mode flags */
+    tcflag_t c_lflag;		/* local mode flags */
+    cc_t c_line;			/* line discipline */
+    cc_t c_cc[NCCS2];		/* control characters */
+    speed_t c_ispeed;		/* input speed */
+    speed_t c_ospeed;		/* output speed */
+};
+#define TCGETS2		_IOR('T', 0x2A, struct termios2)
+#define TCSETS2		_IOW('T', 0x2B, struct termios2)
+#define    BOTHER 0010000
+
+
 namespace GLCD
 {
 
@@ -69,12 +90,16 @@ public:
 
     int Open(const char * device);
     int Close();
+    void SetBaudRate(int speed);
+    bool DisableHangup();
 
     int ReadData(unsigned char * data);
     void WriteData(unsigned char data);
     void WriteData(unsigned char * data, unsigned short length);
+    void WriteData(std::string data);
 };
 
 } // end of namespace
 
 #endif
+

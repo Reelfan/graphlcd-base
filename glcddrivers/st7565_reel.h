@@ -1,7 +1,7 @@
 /**
- *  GraphLCD plugin for the Video Disk Recorder 
+ *  GraphLCD driver library
  *
- *  st7565_reel.h - Plugin for ST7565 display on Reelbox
+ *  st7565-reel.h - Plugin for ST7565 display on Reelbox
  *                  driven by an AVR on the front panel
  *
  *  (c) 2004 Georg Acher, BayCom GmbH, http://www.baycom.de
@@ -32,6 +32,7 @@
 
 #include "driver.h"
 #include "unistd.h"
+#include "port.h"
 
 namespace GLCD
 {
@@ -41,33 +42,30 @@ class cDriverConfig;
 class cDriverST7565R : public cDriver
 {
 private:
-    int fd;
+    cSerialPort* port;
     uint32_t ** LCD;
     int CheckSetup(void);
     void display_cmd(unsigned char cmd);
-    void display_data(unsigned char *data, int l);
-    void set_displaymode(int m);
+    void display_data(unsigned char *data, unsigned char l);
+    void set_displaymode(unsigned char m);
     void set_clock(void);
     void clear_display(void);
-    
+
 public:
     cDriverST7565R(cDriverConfig * config);
-    
-    
+    ~cDriverST7565R();
+
     virtual int Init();
     virtual int DeInit();
-    
+
     virtual void Clear();
     virtual void SetPixel(int x, int y, uint32_t data);
     virtual void Set8Pixels(int x, int y, unsigned char data);
     virtual void Refresh(bool refreshAll = false);
     virtual void SetBrightness(unsigned int percent);
     virtual void SetContrast(unsigned int percent);
-    
-    
 };
 
 }
 
 #endif
-

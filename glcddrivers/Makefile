@@ -4,7 +4,7 @@
 
 -include ../Make.config
 
-CXXFLAGS += -fPIC -Wno-narrowing
+CXXFLAGS += -fPIC
 
 VERMAJOR = 2
 VERMINOR = 1
